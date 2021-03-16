@@ -1,0 +1,31 @@
+* SB3-12 and SB3-14 parameters
+*
+
+BONDS
+SL  CTL2   185.00     1.8070 ! ESNA, ethyl sulfonate, xhe
+
+!LDAO
+NTL  O2L   310.00     1.4000 ! NG3P0  OG312  ! TMAO, trimethylamine N-oxide, xxwy & ejd
+
+ANGLES
+OSL  SL   OSL   130.00    109.47   35.0    2.45 ! LIPID methylsulfate
+OSL  SL   CTL2   80.00     99.00 ! ESNA, ethyl sulfonate, xhe
+SL   CTL2 HAL2   49.00    109.00 ! ESNA, ethyl sulfonate, xhe
+SL   CTL2 CTL2   50.00    105.50 ! ESNA, ethyl sulfonate, xhe
+
+!LDAO
+CTL5 NTL  O2L    80.00    112.00 ! CG334  NG3P0  OG312  ! TMAO, trimethylamine N-oxide, xxwy & ejd
+O2L  NTL  CTL2   80.00    112.00 ! CG334  NG3P0  OG312  ! TMAO, trimethylamine N-oxide, xxwy & ejd
+
+DIHEDRALS
+OSL      SL       CTL2     HAL2    0.1900  3     0.00 ! ESNA, ethyl sulfonate, xhe
+OSL      SL       CTL2     CTL2    0.2300  3     0.00 ! PSNA, propyl sulfonate, xhe
+
+
+IMPROPER
+
+end
+
+return
+
+

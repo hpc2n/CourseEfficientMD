@@ -1,0 +1,1 @@
+variable constraint_angletype  string "57 66 68 78 81 90 93 96 159 166"

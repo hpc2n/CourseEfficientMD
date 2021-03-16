@@ -1,0 +1,144 @@
+structure          step3_pbcsetup.xplor.ext.psf
+coordinates        minimized.pdb
+#coordinates        step3_pbcsetup.pdb
+
+#set temp           303.15
+#set outputname step4_equilibration
+
+# read system values written by CHARMM (need to convert uppercases to lowercases)
+#exec tr "\[:upper:\]" "\[:lower:\]" < step3_pbcsetup.str | sed -e "s/ =//g" > step3_pbcsetup.namd.str
+#source             step3_pbcsetup.namd.str
+
+temperature        303.15
+
+outputName         step4_equilibration
+firsttimestep        0
+
+restartfreq       1000
+dcdfreq           1000
+dcdUnitCell        yes
+xstFreq           1000
+outputEnergies    1000
+outputTiming      1000
+
+# Force-Field Parameters
+paraTypeCharmm     on
+                    
+parameters          toppar/par_all36_prot.prm
+parameters          toppar/par_all36_na.prm
+parameters          toppar/par_all36_carb.prm
+parameters          toppar/par_all36_lipid.prm
+parameters          toppar/par_all36_cgenff.prm
+parameters          toppar/toppar_all36_prot_retinol.str
+parameters          toppar/toppar_all36_na_rna_modified.str
+parameters          toppar/toppar_all36_carb_glycopeptide.str
+parameters          toppar/toppar_all36_prot_fluoro_alkanes.str
+parameters          toppar/toppar_all36_prot_na_combined.str
+parameters          toppar/toppar_all36_prot_heme.str
+parameters          toppar/toppar_all36_lipid_bacterial.str
+parameters          toppar/toppar_all36_lipid_miscellaneous.str
+parameters          toppar/toppar_all36_lipid_cholesterol.str
+parameters          toppar/toppar_all36_lipid_yeast.str
+parameters          toppar/toppar_all36_lipid_sphingo.str
+parameters          toppar/toppar_all36_lipid_inositol.str
+parameters          toppar/toppar_all36_lipid_cardiolipin.str
+parameters          toppar/toppar_all36_lipid_detergent.str
+parameters          toppar/toppar_all36_lipid_lps.str
+parameters          toppar/toppar_water_ions.str
+parameters          toppar/toppar_dum_noble_gases.str
+parameters          toppar/toppar_all36_na_nad_ppi.str
+parameters          toppar/toppar_all36_carb_glycolipid.str
+parameters          toppar/toppar_all36_carb_imlab.str
+
+# These are specified by CHARMM
+exclude             scaled1-4          # non-bonded exclusion policy to use "none,1-2,1-3,1-4,or scaled1-4"
+                                       # 1-2: all atoms pairs that are bonded are going to be ignored
+                                       # 1-3: 3 consecutively bonded are excluded
+                                       # scaled1-4: include all the 1-3, and modified 1-4 interactions
+                                       # electrostatic scaled by 1-4scaling factor 1.0
+                                       # vdW special 1-4 parameters in charmm parameter file.
+1-4scaling          1.0
+switching            on
+vdwForceSwitching   yes
+                                       # if both switching and vdwForceSwitching are on CHARMM force
+                                       # switching is used for vdW forces.
+
+# You have some freedom choosing the cutoff
+cutoff              12.0
+switchdist          10.0
+                                       # switchdist - where you start to switch
+                                       # cutoff - where you stop accounting for nonbond interactions.
+                                       # correspondence in charmm:
+                                       # (cutnb,ctofnb,ctonnb = pairlistdist,cutoff,switchdist)
+pairlistdist        14.0
+                                       # than cutoff( + 2.) 
+stepspercycle       20
+pairlistsPerCycle    2
+                                       # cycle represents the number of steps between atom reassignments
+                                       # this means every 20/2=10 steps the pairlist will be updated
+                          
+# Integrator Parameters
+timestep            1.0
+rigidBonds          all
+nonbondedFreq       1
+fullElectFrequency  1
+
+
+# Constant Temperature Control ONLY DURING EQUILB
+reassignFreq        500
+reassignTemp        303.15
+
+# Periodic Boundary conditions. Need this since for a start...
+cellBasisVector1    119    0.0   0.0
+cellBasisVector2    0.0    119   0.0
+cellBasisVector3    0.0   0.0    119
+cellOrigin          0.0   0.0 0.0
+
+wrapWater           on
+wrapAll             on
+wrapNearest        off
+
+# PME (for full-system periodic electrostatics)
+#exec python checkfft.py $a $b $c > checkfft.str
+#source checkfft.str
+
+PME                yes
+PMEInterpOrder       6
+PMEGridSizeX     128
+PMEGridSizeY     128
+PMEGridSizeZ     128
+usePMECUDA       on
+PMEoffload       on
+#bondedCUDA       63
+
+#For CPU version
+#PMEProcessors       8
+#PMEPencils 8
+#ldbUnloadPME yes
+
+
+# Pressure and volume control
+useGroupPressure       yes
+                                       # has less fluctuation, is needed for rigid bonds (rigidBonds/SHAKE)
+useFlexibleCell        no
+useConstantRatio       no
+
+langevin                on
+langevinDamping         1.0
+langevinTemp            303.15
+langevinHydrogen        off
+
+# constant pressure
+langevinPiston          on
+langevinPistonTarget    1.01325
+langevinPistonPeriod    50.0
+langevinPistonDecay     25.0
+langevinPistonTemp      303.15
+
+# planar restraint
+#colvars on
+#exec sed -e "s/\$bb/1.0/g" -e "s/\$sc/0.1/g" mdsetup_restraint.namd.col > restraints/$outputname.col
+#colvarsConfig restraints/$outputname.col
+
+#minimize 10000
+numsteps 10000
