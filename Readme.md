@@ -11,3 +11,7 @@ NOTE: The course will be online!
 - Performance analysis of different versions of the packages (AMBER, NAMD, GROMACS, LAMMPS)
 - Performance analysis on different architectures (CPU, GPU, KNL)
 - General recommendations when using plugins.
+
+## Instructor: 
+
+Pedro Ojeda
