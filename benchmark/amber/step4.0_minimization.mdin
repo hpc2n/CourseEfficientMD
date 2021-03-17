@@ -1,0 +1,27 @@
+Minimization input file in explicit solvent
+ &cntrl
+    ! Minimization options
+    imin=1,        ! Turn on minimization
+    maxcyc=50000,   ! Maximum number of minimization cycles
+    ncyc=1000,     ! 100 steepest-descent steps, better for strained systems
+
+    ! Potential energy function options
+    cut=12.0,      ! nonbonded cutoff, in Angstroms
+    fswitch=10.0,  ! Force-based switching
+
+    ! Control how often information is printed to the output file
+    ntpr=100,      ! Print energies every 100 steps
+    ntxo=2,        ! Write NetCDF format
+
+    ! Restraint options
+    !ntr=1,         ! Positional restraints for proteins, sugars, and ligands
+
+    ! Set water atom/residue names for SETTLE recognition
+    watnam='WAT',  ! Water residues are named WAT
+    owtnm='O',     ! Water oxygens are named O
+ /
+
+ &ewald
+    vdwmeth = 0,
+ /
+

@@ -1,0 +1,34 @@
+chamber -psf amber/step3_charmm2amber.psf -crd amber/step3_charmm2amber.crd \
+        -top toppar/top_all36_prot.rtf \
+        -top toppar/top_all36_na.rtf \
+        -top toppar/top_all36_carb.rtf \
+        -top toppar/top_all36_lipid.rtf \
+        -top toppar/top_all36_cgenff.rtf \
+        -param toppar/par_all36_prot.prm \
+        -param toppar/par_all36_na.prm \
+        -param toppar/par_all36_carb.prm \
+        -param toppar/par_all36_lipid.prm \
+        -param toppar/par_all36_cgenff.prm \
+        -str toppar/toppar_all36_prot_retinol.str \
+        -str toppar/toppar_all36_na_rna_modified.str \
+        -str toppar/toppar_all36_carb_glycopeptide.str \
+        -str toppar/toppar_all36_prot_fluoro_alkanes.str \
+        -str toppar/toppar_all36_prot_na_combined.str \
+        -str toppar/toppar_all36_prot_heme.str \
+        -str toppar/toppar_all36_lipid_bacterial.str \
+        -str toppar/toppar_all36_lipid_miscellaneous.str \
+        -str toppar/toppar_all36_lipid_cholesterol.str \
+        -str toppar/toppar_all36_lipid_yeast.str \
+        -str toppar/toppar_all36_lipid_sphingo.str \
+        -str toppar/toppar_all36_lipid_inositol.str \
+        -str toppar/toppar_all36_lipid_cardiolipin.str \
+        -str toppar/toppar_all36_lipid_detergent.str \
+        -str toppar/toppar_all36_lipid_lps.str \
+        -str toppar/toppar_water_ions.str \
+        -str toppar/toppar_dum_noble_gases.str \
+        -str toppar/toppar_all36_na_nad_ppi.str \
+        -str toppar/toppar_all36_carb_glycolipid.str \
+        -str toppar/toppar_all36_carb_imlab.str \
+        nocondense -box 119,119,119
+
+outparm amber/step3_charmm2amber.parm7 amber/step3_charmm2amber.rst7
