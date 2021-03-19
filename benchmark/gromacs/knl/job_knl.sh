@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A staff
+#SBATCH -A SNICyyyy-xx-yy
 #SBATCH -t 00:15:00
 #SBATCH -N 1
 #SBATCH -n 68

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A staff
+#SBATCH -A SNICyyyy-xx-yy
 #SBATCH -t 00:25:00
 #SBATCH -n 14
 #SBATCH --gres=gpu:k80:1
