@@ -50,7 +50,7 @@ Open VMD:  File -> New Molecule (choose 4ake.pdb) and close the Molecule File Br
   concentration:
   - autoionize -psf 4ake_wb.psf -pdb 4ake_wb.pdb -sc 0.15 -cation SOD
   - quit VMD
-  - change the names of the resulting files *ionized.pdb* to *4ake_ion.pdb* and the same for *.psf file
+  - change the names of the resulting files *ionized.pdb* to *4ake_ion.pdb* and the same for *.psf* file
 
 - On VMD open *4ake_ion.psf* and *4ake_ion.pdb*. Then on Tk console type:
   - > set everyone [atomselect top all]
@@ -75,7 +75,11 @@ These are the values that will replace the *FIXME* strings in this section.
 
 
 - Use the NAMD configuration file *4ake_eq.conf* and modify the values for the Periodic Boundary Conditions part.
-Add the values of the Center of Mass position that you recorded previously.
+Add the values of the Center of Mass position that you recorded previously in the corresponding *FIXME* strings.
+
+- submit the job to the queue with the command *sbatch namd.sh*
+
+
 
 
 
