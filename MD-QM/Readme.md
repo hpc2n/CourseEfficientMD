@@ -55,10 +55,10 @@ writepsf 4ake_corr.psf
   - change the names of the resulting files *ionized.pdb* to *4ake_ion.pdb* and the same for *.psf file
 
 - On VMD open *4ake_ion.psf* and *4ake_ion.pdb*. Then on Tk console type:
-  - set everyone [atomselect top all]
-  - measure minmax $everyone
-  - measure center $everyone
-  - Keep a record of the center of mass position. Quit VMD. 
+  > set everyone [atomselect top all]
+  > measure minmax $everyone
+  > measure center $everyone
+  > Keep a record of the center of mass position. Quit VMD. 
 
 
 Cell vectors can be taken from the 4ake_ion.pdb file first line:
