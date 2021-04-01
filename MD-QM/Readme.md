@@ -23,8 +23,9 @@ Open VMD:  File -> New Molecule (choose 4ake.pdb) and close the Molecule File Br
   - extract the files with the command *tar zxvf toppar_c36_jul20.tgz* 
   - copy and paste the file *top_all36_prot.rtf*,  *toppar_water_ions.str* and *par_all36_prot.prm* to the same folder level (same $PATH) than the 4ake_chaina.pdb structure
 
-write these lines into a file called 4ake.pgn:
+- write these lines into a file called *4ake.pgn*:
 
+`
 package require psfgen
 topology top_all36_prot.rtf
 pdbalias residue HIS HSE
@@ -34,34 +35,34 @@ coordpdb 4ake_chaina.pdb U
 guesscoord
 writepdb 4ake_corr.pdb
 writepsf 4ake_corr.psf
+`
 
-Open VMD:
-In a terminal write:
-/c/Program\ Files\ \(x86\)/VMD/vmd.exe -dispdev text -e 4ake.pgn  
-type exit on VMD terminal to close it
+- Correcting Structure. On a Kebnekaise Linux terminal  write:
+  - /c/Program\ Files\ \(x86\)/VMD/vmd.exe -dispdev text -e 4ake.pgn  
+  - type *exit* on VMD terminal to close it. You will obtain the .psf and .pdb with hidrogen atoms
+  (4ake_corr.psf, 4ake_corr.psf)
 
-On VMD console:
-package require solvate
-solvate 4ake_corr.psf 4ake_corr.pdb -t 10 -o 4ake_wb 
+- Solvation. Start VMD. On VMD Tk Console type:
+  - package require solvate
+  - solvate 4ake_corr.psf 4ake_corr.pdb -t 10 -o 4ake_wb 
+  - Close VMD and check if the solvated protein molecule files (4ake_wb.psf, 4ake_corr.psf) were written.
+  *-t 10* creates a water box whose sides are 10 Angstrom from the more distant protein atom.
 
-On VMD, then on Tk console (150mM NaCl):
+- Ionization. On VMD, open the Tk console, use the following command to place Na and Cl ions at a 150mM 
+  concentration:
+  - autoionize -psf 4ake_wb.psf -pdb 4ake_wb.pdb -sc 0.15 -cation SOD
+  - quit VMD
+  - change the names of the resulting files *ionized.pdb* to *4ake_ion.pdb* and the same for *.psf file
 
-autoionize -psf 4ake_wb.psf -pdb 4ake_wb.pdb -sc 0.15 -cation SOD
+- On VMD open *4ake_ion.psf* and *4ake_ion.pdb*. Then on Tk console type:
+  - set everyone [atomselect top all]
+  - measure minmax $everyone
+  - measure center $everyone
+  - Keep a record of the center of mass position. Quit VMD. 
 
-quit VMD
-
-Change the names of ionized.pdb to 4ake_ion.pdb and the same for *.psf file
-On VMD open 4ake_ion.psf 4ake_ion.pdb, then on Tk console:
- set everyone [atomselect top all]
-measure minmax $everyone
-{-31.39299964904785 -43.013999938964844 -47.15299987792969} {27.606000900268555 33.9739990234375 26.114999771118164}
-
-measure center $everyone
--1.8439432382583618 -4.39547061920166 -10.430325508117676
 
 Cell vectors can be taken from the 4ake_ion.pdb file first line:
 CRYST1   59.001   76.997   73.292  90.00  90.00  90.00 P 1           
-
 
 
 
