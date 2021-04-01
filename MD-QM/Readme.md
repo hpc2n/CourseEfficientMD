@@ -58,9 +58,27 @@ Open VMD:  File -> New Molecule (choose 4ake.pdb) and close the Molecule File Br
   - > measure center $everyone
   - Keep a record of the center of mass position. Quit VMD. 
 
+- Modify the file *toppar_water_ions.str* (keep a backup copy of it) by adding the symbol *!*  (comment out) 
+  to the following lines:
+  - 35-36, 40, 42, 319-320, 322, 324-327, 346, 348-350, 352-353, 355, 358, 367-369, 373-375, 377, 379-380,
+  383-384
 
-Cell vectors can be taken from the 4ake_ion.pdb file first line:
-CRYST1   59.001   76.997   73.292  90.00  90.00  90.00 P 1           
+
+- Use the NAMD configuration file *4ake_eq.conf* and modify the values for the Adjustable Parameters.
+*structure* corresponds to the *.psf* file of the ionized solvated protein, and *coordinates* is the *.pdb*
+file for the same structure. 
+
+- Use the NAMD configuration file *4ake_eq.conf* and modify the values for the Periodic Boundary Conditions part.
+The *CellBasisVector* values can be obtain from your *4ake_ion.pdb* file on the first line.
+Basis vector 1 corresponds to the first value after CRYST1, and so on for the other vectors.
+These are the values that will replace the *FIXME* strings in this section. 
+
+
+- Use the NAMD configuration file *4ake_eq.conf* and modify the values for the Periodic Boundary Conditions part.
+Add the values of the Center of Mass position that you recorded previously.
+
+
+
 
 
 
