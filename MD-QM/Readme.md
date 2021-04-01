@@ -25,24 +25,24 @@ Open VMD:  File -> New Molecule (choose 4ake.pdb) and close the Molecule File Br
 
 - write these lines into a file called *4ake.pgn*:
 
-> package require psfgen
-> topology top_all36_prot.rtf
-> pdbalias residue HIS HSE
-> pdbalias atom ILE CD1 CD
-> segment U {pdb 4ake_chaina.pdb}
-> coordpdb 4ake_chaina.pdb U
-> guesscoord
-> writepdb 4ake_corr.pdb
-> writepsf 4ake_corr.psf
+  - > package require psfgen
+  - > topology top_all36_prot.rtf
+  - > pdbalias residue HIS HSE
+  - > pdbalias atom ILE CD1 CD
+  - > segment U {pdb 4ake_chaina.pdb}
+  - > coordpdb 4ake_chaina.pdb U
+  - > guesscoord
+  - > writepdb 4ake_corr.pdb
+  - > writepsf 4ake_corr.psf
 
 - Correcting Structure. On a Kebnekaise Linux terminal  write:
-  > vmd -dispdev text -e 4ake.pgn  
+  - > vmd -dispdev text -e 4ake.pgn  
   - type *exit* on VMD terminal to close it. You will obtain the .psf and .pdb with hidrogen atoms
   (4ake_corr.psf, 4ake_corr.psf)
 
 - Solvation. Start VMD. On VMD Tk Console type:
-  > package require solvate
-  > solvate 4ake_corr.psf 4ake_corr.pdb -t 10 -o 4ake_wb 
+  - > package require solvate
+  - > solvate 4ake_corr.psf 4ake_corr.pdb -t 10 -o 4ake_wb 
   - Close VMD and check if the solvated protein molecule files (4ake_wb.psf, 4ake_corr.psf) were written.
   *-t 10* creates a water box whose sides are 10 Angstrom from the more distant protein atom.
 
@@ -53,9 +53,9 @@ Open VMD:  File -> New Molecule (choose 4ake.pdb) and close the Molecule File Br
   - change the names of the resulting files *ionized.pdb* to *4ake_ion.pdb* and the same for *.psf file
 
 - On VMD open *4ake_ion.psf* and *4ake_ion.pdb*. Then on Tk console type:
-  > set everyone [atomselect top all]
-  > measure minmax $everyone
-  > measure center $everyone
+  - > set everyone [atomselect top all]
+  - > measure minmax $everyone
+  - > measure center $everyone
   - Keep a record of the center of mass position. Quit VMD. 
 
 
