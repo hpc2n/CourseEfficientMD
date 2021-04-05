@@ -25,6 +25,7 @@ else
     mdargs="-ntomp 1"
 fi
 
+#tpr file taken from: www.mpibpc.mpg.de/grubmueller/bench 
 
 gmx mdrun -ntmpi 4 -ntomp $SLURM_CPUS_PER_TASK -dlb yes $reset_counters -s benchRIB.tpr 
 

@@ -32,14 +32,17 @@ else
 fi
 
 
-#Taken from: www.mpibpc.mpg.de/grubmueller/bench 
+#tpr file taken from: www.mpibpc.mpg.de/grubmueller/bench 
 
 numactl -H
+
+#Threaded-MPI version
+export OMP_NUM_THREADS=2
+gmx mdrun -ntmpi 68 -npme 18 -ntomp 2 -pin on -pinoffset 0 -pinstride 2 -dlb yes -resetstep 5000 -nsteps 10000 -s benchRIB.tpr 
 
 #MPI version
 export OMP_NUM_THREADS=2
 mpirun -np 130 gmx_mpi mdrun -ntomp 2 -pin on -pinoffset 0 -pinstride 2 -resetstep 5000 -nsteps 10000 -dlb auto -s benchRIB.tpr 
-#mpirun -np 130 numactl -m 1 gmx_mpi mdrun -ntomp 2 -pin on -pinoffset 0 -pinstride 2 -resetstep 5000 -nsteps 10000 -dlb auto -s benchRIB.tpr 
 
 
 

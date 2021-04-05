@@ -31,7 +31,7 @@ else
 fi
 
 
-#Taken from: www.mpibpc.mpg.de/grubmueller/bench 
+#tpr file taken from: www.mpibpc.mpg.de/grubmueller/bench 
 
 numactl -H
 
