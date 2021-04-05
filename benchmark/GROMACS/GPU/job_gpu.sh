@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A Project_ID
+#SBATCH -A SNICyyyy-xx-yy
 #SBATCH -t 00:20:00
 #SBATCH -N 1
 #SBATCH -n 4
@@ -33,4 +33,3 @@ srun gmx_mpi mdrun -ntomp $SLURM_CPUS_PER_TASK $reset_counters -dlb yes  -v -def
 #Using 1 rank for PME and offloading NB and PME to the GPUs (MPI version)
 srun gmx_mpi mdrun -nb gpu -pme gpu -npme 1 -ntomp $SLURM_CPUS_PER_TASK  $reset_counters -dlb yes  -v -deffnm step4.1_equilibration
 
-exit 0
