@@ -1,16 +1,17 @@
 ;define                  = -DREST_ON -DSTEP4_1
 integrator              = md
 dt                      = 0.001
-nsteps                  = 10000
-nstlog                  = 1000 
-nstxout                 = 1000
-nstvout                 = 1000
-nstfout                 = 1000
-nstcalcenergy           = 1000
-nstenergy               = 1000
+nsteps                  = 20000
+nstlog                  = 2000 
+nstxout                 = 2000
+nstvout                 = 2000
+nstfout                 = 2000
+nstcalcenergy           = 2000
+nstenergy               = 2000
 ;
 cutoff-scheme           = Verlet
-nstlist                 = 20
+nstlist                 = 40
+;verlet-buffer-tolerance  = 0.005
 rlist                   = 1.4
 coulombtype             = pme
 rcoulomb                = 1.2
@@ -18,7 +19,13 @@ vdwtype                 = Cut-off
 vdw-modifier            = Force-switch
 rvdw_switch             = 1.0
 rvdw                    = 1.2
+;Multiple Time Step
+;mts                     = yes
+;mts-levels              = 2
+;mts-level2-forces       = longrange-nonbonded
+;mts-level2-factor       = 4
 ;
+ld-seed                        = -520883333
 tcoupl                  = Nose-Hoover
 tc_grps                 = PROT    SOL_ION
 tau_t                   = 1.0     1.0
@@ -27,7 +34,7 @@ ref_t                   = 303.15    303.15
 constraints             = h-bonds
 constraint_algorithm    = LINCS
 ;
-nstcomm                 = 100
+nstcomm                 = 2000
 comm_mode               = linear
 comm_grps               = PROT SOL_ION
 ;
