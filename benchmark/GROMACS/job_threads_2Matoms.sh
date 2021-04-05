@@ -1,25 +1,20 @@
 #!/bin/bash
-#SBATCH -A SNIC2020-9-25
+#SBATCH -A SNICxxxx-yy-zz
 #SBATCH -t 00:10:00
 #SBATCH -N 1
 #SBATCH -n 4
 #SBATCH -c 7
+#For Skylake nodes uncomment the line below
+###SBATCH --constraint=skylake
 #SBATCH --output=job_str.out
 #SBATCH --error=job_str.err
-#SBATCH --mail-type=END
-#SBATCH --exclusive
 
-ml purge
+ml purge  > /dev/null 2>&1 
+ml GCC/8.3.0  CUDA/10.1.243  OpenMPI/3.1.4
+ml GROMACS/2021-Python-3.7.4
 
-#ml GCC/6.4.0-2.28  CUDA/9.0.176  impi/2017.3.196
-#ml GROMACS/2018
-#.1
-#ml GCC/7.3.0-2.30  CUDA/9.2.88  OpenMPI/3.1.1
-#ml GROMACS/2018.3 
-
-
-#ml GCC/5.4.0-2.26  CUDA/8.0.61_375.26  impi/2017.3.196
-#ml GROMACS/2016.3-PLUMED 
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export reset_counters="-resetstep 1000 -nsteps 2000"
 
 ml GCC/8.2.0-2.31.1  CUDA/10.1.105  OpenMPI/3.1.3
 ml GROMACS/2019.2
@@ -31,7 +26,5 @@ else
 fi
 
 
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-gmx mdrun -ntmpi 4 -ntomp $SLURM_CPUS_PER_TASK -dlb yes -resetstep 5000 -s benchRIB.tpr 
+gmx mdrun -ntmpi 4 -ntomp $SLURM_CPUS_PER_TASK -dlb yes $reset_counters -s benchRIB.tpr 
 
-exit 0
