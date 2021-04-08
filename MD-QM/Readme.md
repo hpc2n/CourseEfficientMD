@@ -73,7 +73,8 @@ The *CellBasisVector* values can be obtain from your *4ake_ion.pdb* file on the 
 Basis vector 1 corresponds to the first value after CRYST1, and so on for the other vectors.
 These are the values that will replace the *FIXME* strings in this section. 
 Note: Although the basis vectors from the *4ake_ion.pdb*  work in the present example, a better
-set of values is 57.13 (vector1), 74.56 (vector2), and 70.97 (vector3)
+set of values is 57.13 (vector1), 74.56 (vector2), and 70.97 (vector3).
+cellOrigin  at       -1.8683815002441406 -4.4046807289123535 -10.453012466430664
 
 - Use the NAMD configuration file *4ake_eq.conf* and modify the values for the Periodic Boundary Conditions part.
 Add the values of the Center of Mass position that you recorded previously in the corresponding *FIXME* strings.

@@ -6,6 +6,8 @@
 #SBATCH -N 1
 #Ask for 28 processes
 #SBATCH -n 28
+#SBATCH --output=job_o.out
+#SBATCH --error=job_o.err
 
 ml GCC/7.3.0-2.30  OpenMPI/3.1.1
 ml NAMD/2.13-mpi
