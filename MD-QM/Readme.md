@@ -80,6 +80,52 @@ Add the values of the Center of Mass position that you recorded previously in th
 
 - submit the job to the queue with the command *sbatch namd.sh*
 
+- Analysis of the results. On a Kebnekaise terminal type: *vmd 4ake_ion.pdb 4ake_ion_eq.dcd*. Then, go to 
+Extensions -> Analysis -> RMSD Trajectory Tool. Check the options *Backbone*, *Plot*, and click on
+*ALIGN* and finally *RMSD*. This will plot the RMSD of the aligned protein w.r.t. the backbone atoms.
+
+
+# Setting up a QM/MM simulation with NAMD and VMD 
+
+- Because it is not possible to get a better equilibrated structure in a short time I did it before for you.
+This is the structure that we will be working out. The pfs file is *4ake_ion_eq.psf* and the pdb file *4ake_ion_eq.pdb*.
+The basis vectors that you may use for this structure are 56.85, 74.16, and 70.59 (use these data for
+the *FIXME*s. The cell origin is *(-1.84, -4.39,  -10.4)*
+
+- The configuration file for the QM/MM simulation is *4ake_eq_qmmm.conf*
+Use the information from the previous paragraph to correct the *FIXME* strings. 
+
+- Take a look at the configuration files for the classical MD simulation that we just ran (*4ake_eq.conf*) and the
+one for the QM/MM simulation (*4ake_eq_qmmm.conf*) notice the options that are different.
+
+- For a QM/MM simulation you will need a reference .pdb file from where NAMD can read what atoms must
+be considered as QM atoms and also the boundary atoms. The file that we will use for this purpose is
+*4ake_ion_qm.pdb*. 
+    - First the QM atoms. Use the beta column of this .pdb file 
+    (https://www.ks.uiuc.edu/Training/Tutorials/namd/namd-tutorial-unix-html/node22.html)
+    and replace the value of *0.00* to *1.00* for ATOMs 1878 to 1895. In this way, we will make the side chain
+    atoms of ARG 123 QM atoms.
+
+    - Second the boundary atoms. Use the occupancy column of the .pdb file 
+    (https://www.ks.uiuc.edu/Training/Tutorials/namd/namd-tutorial-unix-html/node22.html)
+    and replace the value of *0.00* to *1.00* for ATOMs 1876 and 1878. This will make CA and CB
+    boundary atoms. 
+
+- We also need a script *run_gaussian.py* for driving the QM simulation inside NAMD. We will use Gaussian
+software for solving the QM part. The options for the Gaussian input script are between lines 18-25.
+Paths for the Gaussian executable are provided in lines 147 and 150. You don't need to change anything
+in this file.
+    - Correct the line for *qmExecPath* with the path of the *run_gaussian.py* script (where you have
+    been working). The line would look like: qmExecPath "/A/B/run_gaussian.py" 
+    - Correct also the line for *qmBaseDir* with the path of the directory you are working.
+    The line would look like: qmBaseDir "/A/B" 
+
+- The batch script for the present QM/MM simulation will be *namd_qmmm.sh*. Take a look at this script
+and compare it with the previous script for the classical MD simulation *namd.sh*
+
+- Submit the job with the command *sbatch namd_qmmm.sh*
+
+
 
 
 
