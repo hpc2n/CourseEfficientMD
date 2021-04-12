@@ -1,2 +1,4 @@
 benchmark/charmm_openmm/
 benchmark/domdec/
+MD-QM/Solution/
+MD-QM/Solution2/
