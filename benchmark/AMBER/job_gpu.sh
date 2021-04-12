@@ -3,7 +3,10 @@
 #SBATCH -t 00:20:00
 #SBATCH -N 1
 #SBATCH -n 28
+#For k80 cards use the line below
 #SBATCH --gres=gpu:k80:2
+#For V100 cards use the line below
+###SBATCH --gres=gpu:v100:2
 #SBATCH --output=job_str.out
 #SBATCH --error=job_str.err
 #SBATCH --mail-type=END

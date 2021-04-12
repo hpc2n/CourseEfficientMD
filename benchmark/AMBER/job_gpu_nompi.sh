@@ -8,7 +8,6 @@
 #SBATCH --mail-type=END
 
 ml purge  > /dev/null 2>&1 
-
 ml GCC/7.3.0-2.30  CUDA/9.2.88  OpenMPI/3.1.1
 ml Amber/18-AmberTools-18-patchlevel-10-8 
 
