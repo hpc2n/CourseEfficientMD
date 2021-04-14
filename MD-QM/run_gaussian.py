@@ -1,4 +1,4 @@
-#!/hpc2n/eb/software/MPI/GCC/7.3.0-2.30/OpenMPI/3.1.1/Python/2.7.15/bin/python
+#!/hpc2n/eb/software/Python/2.7.18-GCCcore-9.3.0/bin/python
 
 # by Maximilian Scheurer (mscheurer@ks.uiuc.edu), Dec 2016
 
@@ -15,10 +15,10 @@ import numpy as np
 ################## Command file parameters
 
 gaussianConfigLines1 = """\
-%NProcShare=4
+%CPU=0-3
 %chk=geom_optim.chk
 %mem=16GB
-# B3LYP/6-31G* Charge Force
+# B3LYP/6-31G* Charge Force Integral=(FineGrid,Acc2E=10) Constants=2006
 
 test structure 
 
@@ -144,10 +144,10 @@ cmdline = "cd " + directory + "; "
 # we probably need to set some environment variables:
 import subprocess, os
 current_env = os.environ.copy()
-current_env["GAUSS_EXEDIR"] = "/hpc2n/eb/software/Core/gaussian/09.e.01-AVX/g09/"
+current_env["GAUSS_EXEDIR"] = "/hpc2n/eb/software/gaussian/16.C.01-AVX2/g16/"
 # subprocess.Popen(my_command, env=my_env)
 
-cmdline += "/hpc2n/eb/software/Core/gaussian/09.e.01-AVX/g09/g09 "
+cmdline += "/hpc2n/eb/software/gaussian/16.C.01-AVX2/g16/g16 "
 cmdline += gaussianInFileName + " " + gaussianOutFileName
 
 # print "command:", cmdline
