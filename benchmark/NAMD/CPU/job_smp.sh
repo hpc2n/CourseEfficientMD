@@ -13,6 +13,6 @@ ml purge  > /dev/null 2>&1
 ml GCC/9.3.0  OpenMPI/4.0.3
 ml NAMD/2.14-mpi 
 
-namd2 +p 28 +setcpuaffinity step4_equilibration.inp > output_smp0.dat
-namd2 +p 28 step4_equilibration.inp > output_smp1.dat
+charmrun +p28 namd2 +setcpuaffinity step4_equilibration.inp > output_smp0.dat
+charmrun +p28 namd2 step4_equilibration.inp > output_smp1.dat
 
