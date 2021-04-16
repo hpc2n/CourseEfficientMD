@@ -1,0 +1,48 @@
+A NVT simulation for common production-level simulations
+ &cntrl
+    imin=0,        ! No minimization
+    irest=0,       ! This is NOT a restart of an old MD simulation
+    ntx=1,         ! So our inpcrd file has no velocities
+
+    ! Temperature control
+    ntt=3,         ! Langevin dynamics
+    gamma_ln=1.0,  ! Friction coefficient (ps^-1)
+    tempi=303.15,   ! Initial temp -- give it some small random velocities
+    temp0=303.15,   ! Target temperature
+
+    ! Potential energy control
+    cut=12.0,       ! nonbonded cutoff, in Angstroms
+    fswitch=10.0,   ! Force-based switching
+
+    ! MD settings
+    nstlim=200,  ! 10K steps, 10 ps total
+    dt=0.001,      ! time step (ps)
+
+    ! SHAKE
+    ntc=2,         ! Constrain bonds containing hydrogen
+    ntf=2,         ! Do not calculate forces of bonds containing hydrogen
+
+    ! Control how often information is printed
+    ntpr=1000,     ! Print energies every 1000 steps
+    ntwx=1000,     ! Print coordinates every 1000 steps to the trajectory
+    ntwr=1000,    ! Print a restart file every 10K steps (can be less frequent)
+!   ntwv=-1,       ! Uncomment to also print velocities to trajectory
+!   ntwf=-1,       ! Uncomment to also print forces to trajectory
+    ntxo=2,        ! Write NetCDF format
+    ioutfm=1,      ! Write NetCDF format (always do this!)
+
+    ! Wrap coordinates when printing them to the same unit cell
+    iwrap=1,
+
+    ! Restraint options
+    !ntr=1,         ! Positional restraints for proteins, sugars, and ligands
+
+    ! Set water atom/residue names for SETTLE recognition
+    watnam='WAT',  ! Water residues are named WAT
+    owtnm='O',     ! Water oxygens are named O
+ /
+
+ &ewald
+    vdwmeth = 0,
+ /
+
