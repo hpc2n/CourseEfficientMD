@@ -4,14 +4,16 @@
 #SBATCH -N 1
 #SBATCH -n 28
 #SBATCH --gres=gpu:k80:2
+#For v100 uncomment the following line and comment out the previous one
+##SBATCH --gres=gpu:v100:2
 #SBATCH --exclusive
 #SBATCH --output=job_str.out
 #SBATCH --error=job_str.err
 #SBATCH --mail-type=END
 
-ml purge
-ml icc/2017.1.132-GCC-5.4.0-2.26 ifort/2017.1.132-GCC-5.4.0-2.26 CUDA/8.0.44  impi/2017.1.132
-ml OpenMM/7.1.1-Python-3.6.1
+ml purge  > /dev/null 2>&1 
+ml GCC/9.3.0  CUDA/11.0.2  OpenMPI/4.0.3
+ml OpenMM/7.5.0-Python-3.8.2 
           
 
 # Equilibration
