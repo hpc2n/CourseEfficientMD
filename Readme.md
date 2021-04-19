@@ -9,9 +9,14 @@ NOTE: The course will be online!
 ## Topics to be covered are:
 
 - Performance analysis of different versions of the packages (AMBER, NAMD, GROMACS, LAMMPS)
-- Performance analysis on different architectures (CPU, GPU, KNL)
+- Performance analysis on different architectures (CPU, GPU, KNL CPUs)
 - General recommendations when using plugins.
+- Setting up classical MD and QM/MM simulations with NAMD+VMD and GAUSSIAN
 
 ## Instructor: 
 
 Pedro Ojeda
+
+## Helper:
+
+Birgitte Brydsö
