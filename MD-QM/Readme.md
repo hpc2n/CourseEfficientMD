@@ -125,7 +125,9 @@ in this file.
 and compare it with the previous script for the classical MD simulation *namd.sh*
 
 - Submit the job with the command *sbatch namd_qmmm.sh*
-
+- If everything went well, you will see a new directory called *0/* which contains the Gaussian input
+file (*.com*) and the corresponding log file (*.log*). Also, Gaussian will write a checkpoint file (*.chk*)
+which is useful upon restarting a simulation.
 
 
 
