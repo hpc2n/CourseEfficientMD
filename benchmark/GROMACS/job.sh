@@ -9,11 +9,11 @@
 #SBATCH --error=job_str.err
 
 ml purge  > /dev/null 2>&1 
-ml GCC/8.3.0  CUDA/10.1.243  OpenMPI/3.1.4
-ml GROMACS/2021-Python-3.7.4
+ml GCC/10.2.0  OpenMPI/4.0.5 
+ml GROMACS/2021
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export reset_counters="-resetstep 1000 -nsteps 2000"
+export reset_counters="-resetstep 10000 -nsteps 20000"
 
 if [ -n "$SLURM_CPUS_PER_TASK" ]; then
     mdargs="-ntomp $SLURM_CPUS_PER_TASK"
