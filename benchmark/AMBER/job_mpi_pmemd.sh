@@ -1,14 +1,15 @@
 #!/bin/bash
-#SBATCH -A SNICyyyy-xx-yy
+#SBATCH -A Project_ID
 #SBATCH -t 00:25:00
+#SBATCH -N 1
 #SBATCH -n 28
 #SBATCH --output=job_str.out
 #SBATCH --error=job_str.err
 #SBATCH --mail-type=END
 
 ml purge  > /dev/null 2>&1 
-ml GCC/9.3.0  OpenMPI/4.0.3
-ml Amber/18.17-AmberTools-19.12-Python-2.7.18
+ml GCC/11.2.0  OpenMPI/4.1.1
+ml Amber/22.0-AmberTools-22.3
 
 
 ####srun sander.MPI -ng 8 -i step4.0_minimization.mdin
