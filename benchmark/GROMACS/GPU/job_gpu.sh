@@ -1,35 +1,33 @@
 #!/bin/bash
-#SBATCH -A SNICyyyy-xx-yy
+# This is the job script to run a GROMACS example job 
+# Remember to change the following to your own Project ID! 
+#SBATCH -A Project_ID
+#SBATCH -J Gromacs
 #SBATCH -t 00:20:00
-#SBATCH -N 1
 #SBATCH -n 4
-#SBATCH -c 7
-#K80 cards
-#SBATCH --gres=gpu:k80:2
-#V100 cards
-##SBATCH --gres=gpu:v100:2
-#SBATCH --output=job_str.out
-#SBATCH --error=job_str.err
-#SBATCH --exclusive
+# Asking for Type X of GPU
+#SBATCH --gpus-per-node=Type:2
 
-ml purge  > /dev/null 2>&1 
-ml GCC/8.3.0  CUDA/10.1.243  OpenMPI/3.1.4
-ml GROMACS/2021-Python-3.7.4
+# It is a good idea to do a ml purge before loading other modules
+ml purge > /dev/null 2>&1
+ml GCC/12.3.0  OpenMPI/4.1.5
+ml GROMACS/2023.3-CUDA-12.1.1-PLUMED-2.9.0
 
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export reset_counters="-resetstep 10000 -nsteps 20000"
+#Information about GPUs
+nvidia-smi
+echo $CUDA_VISIBLE_DEVICES 
 
 gmx grompp -f step4.1_equilibration.mdp -o step4.1_equilibration.tpr -c step4.0_minimization.gro -r step3_charmm2gmx.pdb -n index.ndx -p topol.top
+sleep 10
 
-#Running with default options (MPI-Threaded version)
-gmx mdrun -ntomp $SLURM_CPUS_PER_TASK -ntmpi $SLURM_NTASKS $reset_counters -dlb yes  -v -deffnm step4.1_equilibration
+#Three different ways to run this job:
+#1. MPI version (Default)
+mpirun -np $SLURM_NTASKS gmx_mpi mdrun -dlb yes  -v -deffnm step4.1_equilibration
+sleep 10
 
-#Using 1 rank for PME and offloading NB and PME to the GPUs (MPI-Threaded version)
-gmx mdrun -nb gpu -pme gpu -npme 1 -ntomp $SLURM_CPUS_PER_TASK -ntmpi $SLURM_NTASKS $reset_counters -dlb yes  -v -deffnm step4.1_equilibration
+#2. MPI version (Offloading nb and pme to gpus)
+mpirun -np $SLURM_NTASKS gmx_mpi mdrun -nb gpu -pme gpu -npme 1 -dlb yes  -v -deffnm step4.1_equilibration
+sleep 10
 
-#Running with default options (MPI version)
-srun gmx_mpi mdrun -ntomp $SLURM_CPUS_PER_TASK $reset_counters -dlb yes  -v -deffnm step4.1_equilibration
-
-#Using 1 rank for PME and offloading NB and PME to the GPUs (MPI version)
-srun gmx_mpi mdrun -nb gpu -pme gpu -npme 1 -ntomp $SLURM_CPUS_PER_TASK  $reset_counters -dlb yes  -v -deffnm step4.1_equilibration
-
+#3. Threaded-MPI version (Offloading nb and pme to gpus)
+gmx mdrun -ntmpi $SLURM_NTASKS -nb gpu -pme gpu -npme 1  -dlb yes -v -deffnm step4.1_equilibration
