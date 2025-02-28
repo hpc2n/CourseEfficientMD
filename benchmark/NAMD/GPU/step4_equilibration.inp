@@ -15,16 +15,16 @@ outputName         $outputname;        # base name for output from this run
                                        # in the format of first-dyn.coor and first-dyn.vel
 firsttimestep        0;                # last step of previous run
 
-restartfreq       1000;                # 500 steps = every 1ps
-dcdfreq           1000;
+restartfreq       10000;                # 500 steps = every 1ps
+dcdfreq           10000;
 dcdUnitCell        yes;                # the file will contain unit cell info in the style of
                                        # charmm dcd files. if yes, the dcd files will contain
                                        # unit cell information in the style of charmm DCD files.
-xstFreq           1000;                # XSTFreq: control how often the extended systen configuration
+xstFreq           10000;                # XSTFreq: control how often the extended systen configuration
                                        # will be appended to the XST file
-outputEnergies    1000;                # 125 steps = every 0.25ps
+outputEnergies    10000;                # 125 steps = every 0.25ps
                                        # The number of timesteps between each energy output of NAMD
-outputTiming      1000;                # The number of timesteps between each timing output shows
+outputTiming      10000;                # The number of timesteps between each timing output shows
                                        # time per step and time to completion
 
 # Force-Field Parameters
@@ -137,4 +137,4 @@ langevinPistonTemp      $temp
 #exec sed -e "s/\$bb/1.0/g" -e "s/\$sc/0.1/g" mdsetup_restraint.namd.col > restraints/$outputname.col
 #colvarsConfig restraints/$outputname.col
 
-run 3000
+run 20000
