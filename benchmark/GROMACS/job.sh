@@ -1,32 +1,18 @@
 #!/bin/bash
-#SBATCH -A SNICxxxx-yy-zz
-#SBATCH -t 00:05:00
-#SBATCH -n 4
-#SBATCH -c 7
-#For Skylake nodes uncomment the line below
-###SBATCH --constraint=skylake
-#SBATCH --output=job_str.out
-#SBATCH --error=job_str.err
+# This is the job script to run a GROMACS example job 
+# Remember to change the following to your own Project ID! 
+#SBATCH -A Project_ID
+#SBATCH -J Gromacs
+#SBATCH -t 00:22:00
+#SBATCH -n *FIXME*
 
-ml purge  > /dev/null 2>&1 
-ml GCC/10.2.0  OpenMPI/4.0.5 
-ml GROMACS/2021
+# It is a good idea to do a ml purge before loading other modules
+ml purge > /dev/null 2>&1
 
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-export reset_counters="-resetstep 10000 -nsteps 20000"
+ml GCC/13.2.0  OpenMPI/4.1.6
+ml GROMACS/2024.1
 
-if [ -n "$SLURM_CPUS_PER_TASK" ]; then
-    mdargs="-ntomp $SLURM_CPUS_PER_TASK"
-else
-    mdargs="-ntomp 1"
-fi
-
+export MDRUN='gmx_mpi mdrun'
 gmx grompp -f step4.1_equilibration.mdp -o step4.1_equilibration.tpr -c step4.0_minimization.gro -r step3_charmm2gmx.pdb -n index.ndx -p topol.top
-
-#MPI-threaded version
-gmx mdrun $reset_counters -ntmpi 4 -ntomp $SLURM_CPUS_PER_TASK -deffnm step4.1_equilibration
-
-#MPI version
-srun gmx_mpi mdrun $mdargs $reset_counters -npme 0 -dlb yes  -v -deffnm step4.1_equilibration
-
+mpirun -np $SLURM_NTASKS $MDRUN -dlb yes  -v -deffnm step4.1_equilibration
 

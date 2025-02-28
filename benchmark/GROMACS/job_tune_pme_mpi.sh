@@ -1,39 +1,36 @@
 #!/bin/bash
-#SBATCH -A SNIC2020-9-25
-#SBATCH -t 00:10:00
+# This is the job script to run a GROMACS example job 
+# Remember to change the following to your own Project ID! 
+#SBATCH -A hpc2n2024-084
+###SBATCH -A Project_ID
+#SBATCH -J Gromacs
+#SBATCH -t 00:30:00
 #SBATCH -N 1
-#SBATCH -n 4
-#SBATCH -c 7
-#SBATCH --output=job_str.out
-#SBATCH --error=job_str.err
-#SBATCH --mail-type=END
-#SBATCH --exclusive
+#SBATCH -n 4 #*FIXME*
+##SBATCH -c 7 #*FIXME*
+# For AMD nodes use the following line
 
-ml purge
+# It is a good idea to do a ml purge before loading other modules
+ml purge > /dev/null 2>&1
 
-#ml GCC/6.4.0-2.28  CUDA/9.0.176  impi/2017.3.196
-#ml GROMACS/2018
-#.1
-#ml GCC/7.3.0-2.30  CUDA/9.2.88  OpenMPI/3.1.1
-#ml GROMACS/2018.3 
+#ml GCC/10.2.0  OpenMPI/4.0.5
+#ml GROMACS/2021
+# For AMD CPUs uncomment the following two lines and comment out the previous two
+#ml GCC/11.3.0  OpenMPI/4.1.4
+#ml GROMACS/2023.1
+ml GCC/13.2.0  OpenMPI/4.1.6
+ml GROMACS/2024.1
 
+#if [ -n "$SLURM_CPUS_PER_TASK" ]; then
+#    mdargs="-ntomp $SLURM_CPUS_PER_TASK"
+#else
+#    mdargs="-ntomp 1"
+#fi
 
-#ml GCC/5.4.0-2.26  CUDA/8.0.61_375.26  impi/2017.3.196
-#ml GROMACS/2016.3-PLUMED 
-
-ml GCC/8.2.0-2.31.1  CUDA/10.1.105  OpenMPI/3.1.3
-ml GROMACS/2019.2
-
-if [ -n "$SLURM_CPUS_PER_TASK" ]; then
-    mdargs="-ntomp $SLURM_CPUS_PER_TASK"
-else
-    mdargs="-ntomp 1"
-fi
-
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-
-rm -f bencherr* bench.edr bench.log* ion_channel_bench* perf.out
-
+#export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export MDRUN='gmx_mpi mdrun'
 gmx grompp -f step4.1_equilibration.mdp -o step4.1_equilibration.tpr -c step4.0_minimization.gro -r step3_charmm2gmx.pdb -n index.ndx -p topol.top
-#gmx tune_pme -np $SLURM_NTASKS -mdrun "$MDRUN"  -npstring none $mdargs -dlb yes -s step4.1_equilibration.tpr -nocheck -nolaunch -steps 20000 -resetstep 5000 -npme subset # -rmax 3.0 -rmin 1.2 -r 1 #-ntpr 5 -bg bench.log -err bencherr.log 
-gmx tune_pme -np $SLURM_NTASKS -mdrun "gmx_mpi mdrun" $mdargs -dlb yes -s step4.1_equilibration.tpr -npstring none -nocheck -nolaunch -steps 10000 -resetstep 5000 -npme subset -max 0.5 -min 0.15 -rmax 1.6 -rmin 0.8 
+
+#gmx tune_pme -np $SLURM_NTASKS $mdargs -dlb yes -s step4.1_equilibration.tpr -nocheck -nolaunch -steps 2000 -resetstep 1000 -ntpr 4 -r 2 -min 0.0 -max 0.5 
+gmx tune_pme -mdrun "$MDRUN" -np $SLURM_NTASKS -dlb yes -s step4.1_equilibration.tpr -nocheck -nolaunch -steps 2000 -resetstep 1000 -ntpr 4 -r 2 -min 0.0 -max 0.5 
+ 
